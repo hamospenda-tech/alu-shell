@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# This comment thing sha
+
+for file in *
+do
+    echo ${file#*-}
+done	

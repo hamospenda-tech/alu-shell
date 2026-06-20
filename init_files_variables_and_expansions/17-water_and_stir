@@ -1,0 +1,38 @@
+#!/bin/bash
+
+decode() {
+    local alphabet="$1"
+    local value="$2"
+    local base=${#alphabet}
+    local result=0
+    local i char pos
+    for (( i=0; i<${#value}; i++ )); do
+        char="${value:$i:1}"
+        pos="${alphabet%%"$char"*}"
+        pos=${#pos}
+        result=$(( result * base + pos ))
+    done
+    echo "$result"
+}
+
+encode() {
+    local alphabet="$1"
+    local num="$2"
+    local base=${#alphabet}
+    local result=""
+    if [ "$num" -eq 0 ]; then
+        echo "${alphabet:0:1}"
+        return
+    fi
+    while [ "$num" -gt 0 ]; do
+        local rem=$(( num % base ))
+        result="${alphabet:$rem:1}$result"
+        num=$(( num / base ))
+    done
+    echo "$result"
+}
+
+water_dec=$(decode "water" "$WATER")
+stir_dec=$(decode "stir." "$STIR")
+total=$(( water_dec + stir_dec ))
+encode "bestchol" "$total"
